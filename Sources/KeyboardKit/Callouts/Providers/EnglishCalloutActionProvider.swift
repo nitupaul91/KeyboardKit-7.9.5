@@ -25,13 +25,13 @@ open class EnglishCalloutActionProvider: BaseCalloutActionProvider, LocalizedSer
         switch char {
         case "0": return "0°"
 
-        case "a": return "aàáâäæãåā"
+        case "a": return "aàáâäæãåāª"
         case "c": return "cçćč"
         case "e": return "eèéêëēėę"
         case "i": return "iîïíīįì"
         case "l": return "lł"
         case "n": return "nñń"
-        case "o": return "oôöòóœøōõ"
+        case "o": return "oôöòóœøōõº"
         case "s": return "sßśš"
         case "u": return "uûüùúū"
         case "y": return "yÿ"
@@ -46,6 +46,7 @@ open class EnglishCalloutActionProvider: BaseCalloutActionProvider, LocalizedSer
         case "?": return "?¿"
         case "!": return "!¡"
         case "'", "’": return "'’‘`"
+        case "´" : return "¨ˆ’´"
             
         case "%": return "%‰"
         case "=": return "=≠≈"

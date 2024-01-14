@@ -64,6 +64,22 @@ public extension InputSet {
         ])
     }
     
+    static var spanish: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuiop"),
+            .init(chars: "asdfghjklñ"),
+            .init(phone: "zxcvbnm", pad: "zxcvbnm,.-")
+        ])
+    }
+    
+    static var french: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "azertyuiop"),
+            .init(chars: "qsdfghjklm"),
+            .init(phone: "wxcvbn´", pad: "wxcvbn´?./+")
+        ])
+    }
+    
     static var qwerty: AlphabeticInputSet {
         .init(rows: [
             .init(chars: "qwertyuiop"),
