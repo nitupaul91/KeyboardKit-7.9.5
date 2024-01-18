@@ -72,6 +72,38 @@ public extension InputSet {
         ])
     }
     
+    static var norsk: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuiopå"),
+            .init(chars: "asdfghjkløæ"),
+            .init(phone: "zxcvbnm", pad: "zxcvbnm,.-")
+        ])
+    }
+    
+    static var dansk: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuiopå"),
+            .init(chars: "asdfghjklæø"),
+            .init(phone: "zxcvbnm", pad: "zxcvbnm,.-")
+        ])
+    }
+    
+    static var swedish: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuiopå"),
+            .init(chars: "asdfghjklöä"),
+            .init(phone: "zxcvbnm", pad: "zxcvbnm,.-")
+        ])
+    }
+    
+    static var finnish: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuiopå"),
+            .init(chars: "asdfghjklöä"),
+            .init(phone: "zxcvbnm", pad: "zxcvbnm,.-")
+        ])
+    }
+    
     static var french: AlphabeticInputSet {
         .init(rows: [
             .init(chars: "azertyuiop"),
