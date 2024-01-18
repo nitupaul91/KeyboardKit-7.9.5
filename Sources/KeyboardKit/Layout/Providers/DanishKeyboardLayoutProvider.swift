@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Paul Nitu on 18.01.2024.
 //
@@ -11,13 +11,13 @@ import Foundation
  This keyboard layout provider implementation can be used to
  create standard English keyboard layouts.
  */
-open class NorskKeyboardLayoutProvider: SystemKeyboardLayoutProvider, KeyboardLayoutProviderProxy, LocalizedService {
+open class DanishKeyboardLayoutProvider: SystemKeyboardLayoutProvider, KeyboardLayoutProviderProxy, LocalizedService {
 
     /**
      Create an English keyboard layout provider.
      */
     public override init(
-        alphabeticInputSet: AlphabeticInputSet = .norsk,
+        alphabeticInputSet: AlphabeticInputSet = .dansk,
         numericInputSet: NumericInputSet = .englishNumeric,
         symbolicInputSet: SymbolicInputSet = .englishSymbolic
     ) {
