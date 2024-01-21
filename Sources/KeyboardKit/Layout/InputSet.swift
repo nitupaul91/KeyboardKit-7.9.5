@@ -88,6 +88,22 @@ public extension InputSet {
         ])
     }
     
+    static var russian: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "йцукенгшщзх"),
+            .init(chars: "фывапролджэ"),
+            .init(phone: "ячсмитьбю", pad: "ячсмитьбю,.-")
+        ])
+    }
+    
+    static var ukrainian: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "йцукенгшщзх"),
+            .init(chars: "фівапролджє"),
+            .init(phone: "ячсмитьбю", pad: "ячсмитьбю,.-")
+        ])
+    }
+    
     static var swedish: AlphabeticInputSet {
         .init(rows: [
             .init(chars: "qwertyuiopå"),
