@@ -53,12 +53,6 @@ public protocol AutocompleteProvider: AnyObject {
         completion: @escaping Completion
     )
     
-    func followUpSuggestions(
-        for text: String,
-        completion: @escaping Completion
-    )
-
-    
     /// > v8.0: This will be removed in KeyboardKit 8.0.
     typealias Completion = AutocompleteCompletion
 

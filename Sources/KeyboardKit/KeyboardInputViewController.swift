@@ -466,9 +466,9 @@ open class KeyboardInputViewController: UIInputViewController, KeyboardControlle
         textDocumentProxy.insertAutocompleteSuggestion(suggestion)
         keyboardActionHandler.handle(.release, on: .character(""))
         
-        autocompleteProvider.followUpSuggestions(for: suggestion.text) { [weak self] result in
-            self?.updateAutocompleteContext(with: result)
-        }
+//        autocompleteProvider.followUpSuggestions(for: suggestion.text) { [weak self] result in
+//            self?.updateAutocompleteContext(with: result)
+//        }
     }
 
     /**

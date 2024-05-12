@@ -88,26 +88,4 @@ public class RealAutocompleteProvider: AutocompleteProvider {
         }
     }
     
-    public func followUpSuggestions(for word: String, completion: AutocompleteProvider.Completion) {
-        guard let lexicon = lexicon else {
-            completion(.success([]))
-            return
-        }
-        
-        var nextWordCandidates = Set<String>()
-        
-        for entry in lexicon.entries {
-            if entry.userInput.lowercased() == word.lowercased() {
-                let words = entry.documentText.split(separator: " ")
-                if words.count > 1 {
-                    nextWordCandidates.insert(String(words[1]))
-                }
-            }
-        }
-        
-        // Limit to top 3 suggestions
-        let suggestions = nextWordCandidates.prefix(3).map { AutocompleteSuggestion(text: $0) }
-        completion(.success(suggestions))
-    }
-    
 }
