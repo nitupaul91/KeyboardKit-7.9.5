@@ -92,7 +92,8 @@ struct AutocompleteToolbarItem_Previews: PreviewProvider {
                 suggestions: previewSuggestions,
                 locale: locale,
                 style: .standard,
-                suggestionAction: { _ in}
+                suggestionAction: { _ in},
+                logoAction: {}
             ).previewBar()
         }
     }

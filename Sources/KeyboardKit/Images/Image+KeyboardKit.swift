@@ -31,6 +31,7 @@ public extension KeyboardImageReader {
     static var keyboardDismiss: Image { .symbol("keyboard.chevron.compact.down") }
     static var keyboardEmail: Image { .symbol("envelope") }
     static var keyboardEmoji: Image { .asset("keyboardEmoji") }
+    static var keyboardLogo: Image { .asset("logo") }
     static var keyboardEmojiSymbol: Image { .symbol("face.smiling") }
     static var keyboardGlobe: Image { .symbol("globe") }
     static var keyboardImages: Image { .symbol("photo") }
@@ -70,7 +71,7 @@ public extension KeyboardImageReader {
 extension Image {
 
     static func asset(_ name: String) -> Image {
-        Image("keyboardEmoji", bundle: .keyboardKit)
+        Image(name, bundle: .keyboardKit)
     }
 
     static func symbol(_ name: String) -> Image {

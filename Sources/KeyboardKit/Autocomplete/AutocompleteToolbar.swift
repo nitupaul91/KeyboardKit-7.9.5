@@ -43,7 +43,8 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
         style: Style = .standard,
         itemView: @escaping ItemViewBuilder,
         separatorView: @escaping SeparatorViewBuilder,
-        suggestionAction: @escaping SuggestionAction
+        suggestionAction: @escaping SuggestionAction,
+        logoAction: @escaping LogoAction
     ) {
         self.items = suggestions.map { BarItem($0) }
         self.itemView = itemView
@@ -51,6 +52,7 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
         self.style = style
         self.separatorView = separatorView
         self.suggestionAction = suggestionAction
+        self.logoAction = logoAction
     }
     
     public typealias Style = KeyboardStyle.AutocompleteToolbar
@@ -59,6 +61,7 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
     private let locale: Locale
     private let style: Style
     private let suggestionAction: SuggestionAction
+    private let logoAction: LogoAction
     private let itemView: ItemViewBuilder
     private let separatorView: SeparatorViewBuilder
 
@@ -71,6 +74,9 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
     
     /// This view builder is used to build item separators.
     public typealias SeparatorViewBuilder = (AutocompleteSuggestion, Style) -> SeparatorView
+    
+    /// A typealias for an action to trigger for Logo click.
+    public typealias LogoAction = () -> Void
     
     /// This internal struct is used to wrap item data.
     struct BarItem: Identifiable {
@@ -86,6 +92,14 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
 
     public var body: some View {
         HStack {
+            Button(action: {
+                logoAction()
+            }, label: {
+                Image.keyboardLogo
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .padding(.leading, 8)
+            })
             ForEach(items) { item in
                 itemButton(for: item.suggestion)
                 if useSeparator(for: item) {
@@ -113,12 +127,14 @@ public extension AutocompleteToolbar where ItemView == AutocompleteToolbarItem {
         locale: Locale = .current,
         style: Style = .standard,
         separatorView: @escaping SeparatorViewBuilder,
-        suggestionAction: @escaping SuggestionAction
+        suggestionAction: @escaping SuggestionAction,
+        logoAction: @escaping LogoAction
     ) {
         self.items = suggestions.map { BarItem($0) }
         self.locale = locale
         self.style = style
         self.suggestionAction = suggestionAction
+        self.logoAction = logoAction
         self.itemView = Self.standardItemView
         self.separatorView = separatorView
     }
@@ -156,12 +172,14 @@ public extension AutocompleteToolbar where SeparatorView == AutocompleteToolbarS
         locale: Locale = .current,
         style: Style = .standard,
         itemView: @escaping ItemViewBuilder,
-        suggestionAction: @escaping SuggestionAction
+        suggestionAction: @escaping SuggestionAction,
+        logoAction: @escaping LogoAction
     ) {
         self.items = suggestions.map { BarItem($0) }
         self.locale = locale
         self.style = style
         self.suggestionAction = suggestionAction
+        self.logoAction = logoAction
         self.itemView = itemView
         self.separatorView = Self.standardSeparatorView
     }
@@ -194,12 +212,14 @@ public extension AutocompleteToolbar where ItemView == AutocompleteToolbarItem, 
         suggestions: [AutocompleteSuggestion],
         locale: Locale = .current,
         style: Style = .standard,
-        suggestionAction: @escaping SuggestionAction
+        suggestionAction: @escaping SuggestionAction,
+        logoAction: @escaping LogoAction
     ) {
         self.items = suggestions.map { BarItem($0) }
         self.locale = locale
         self.style = style
         self.suggestionAction = suggestionAction
+        self.logoAction = logoAction
         self.itemView = Self.standardItemView
         self.separatorView = Self.standardSeparatorView
     }
@@ -250,28 +270,28 @@ struct AutocompleteToolbar_Previews: PreviewProvider {
                 suggestions: previewSuggestions,
                 locale: KeyboardLocale.english.locale,
                 style: .standard,
-                suggestionAction: { _ in }).previewBar()
+                suggestionAction: { _ in }, logoAction: {}).previewBar()
             AutocompleteToolbar(
                 suggestions: previewSuggestions + additional,
                 locale: KeyboardLocale.spanish.locale,
                 style: .standard,
-                suggestionAction: { _ in }).previewBar()
+                suggestionAction: { _ in }, logoAction: {}).previewBar()
             AutocompleteToolbar(
                 suggestions: previewSuggestions + additional,
                 locale: KeyboardLocale.spanish.locale,
                 style: .preview1,
-                suggestionAction: { _ in }).previewBar()
+                suggestionAction: { _ in }, logoAction: {}).previewBar()
             AutocompleteToolbar(
                 suggestions: previewSuggestions + additional,
                 locale: KeyboardLocale.spanish.locale,
                 style: .preview2,
-                suggestionAction: { _ in }).previewBar()
+                suggestionAction: { _ in }, logoAction: {}).previewBar()
             AutocompleteToolbar(
                 suggestions: previewSuggestions,
                 locale: KeyboardLocale.swedish.locale,
                 style: .standard,
                 itemView: previewItem,
-                suggestionAction: { _ in }).previewBar()
+                suggestionAction: { _ in }, logoAction: {}).previewBar()
         }
         .padding()
     }
@@ -294,7 +314,7 @@ struct AutocompleteToolbar_Previews: PreviewProvider {
     }
     
     static let previewSuggestions: [AutocompleteSuggestion] = [
-        AutocompleteSuggestion(text: "Baz", isUnknown: true),
+        AutocompleteSuggestion(text: "Bazofilus", isUnknown: true),
         AutocompleteSuggestion(text: "Bar", isAutocorrect: true),
         AutocompleteSuggestion(text: "", title: "Foo", subtitle: "Recommended")]
 }

@@ -58,8 +58,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
         actionHandler: KeyboardActionHandler,
         styleProvider: KeyboardStyleProvider,
         autocompleteContext: AutocompleteContext,
-        autocompleteToolbar: AutocompleteToolbarMode,
+        autocompleteToolbar: Bool,
         autocompleteToolbarAction: @escaping AutocompleteToolbarAction,
+        logoAction: @escaping LogoAction,
         keyboardContext: KeyboardContext,
         calloutContext: CalloutContext?,
         width: CGFloat,
@@ -72,6 +73,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
             autocompleteContext: autocompleteContext,
             autocompleteToolbar: autocompleteToolbar,
             autocompleteToolbarAction: autocompleteToolbarAction,
+            logoAction: logoAction,
             keyboardContext: keyboardContext,
             calloutContext: calloutContext,
             width: width,
@@ -115,8 +117,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
         actionHandler: KeyboardActionHandler,
         styleProvider: KeyboardStyleProvider,
         autocompleteContext: AutocompleteContext,
-        autocompleteToolbar: AutocompleteToolbarMode,
+        autocompleteToolbar: Bool,
         autocompleteToolbarAction: @escaping AutocompleteToolbarAction,
+        logoAction: @escaping LogoAction,
         keyboardContext: KeyboardContext,
         calloutContext: CalloutContext?,
         width: CGFloat,
@@ -129,6 +132,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
         self.styleProvider = styleProvider
         self.autocompleteToolbarMode = autocompleteToolbar
         self.autocompleteToolbarAction = autocompleteToolbarAction
+        self.logoAction = logoAction
         self.keyboardWidth = width
         self.inputWidth = layout.inputWidth(for: width)
         self.buttonView = buttonView
@@ -166,8 +170,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
         actionHandler: KeyboardActionHandler,
         styleProvider: KeyboardStyleProvider,
         autocompleteContext: AutocompleteContext,
-        autocompleteToolbar: AutocompleteToolbarMode,
+        autocompleteToolbar: Bool,
         autocompleteToolbarAction: @escaping AutocompleteToolbarAction,
+        logoAction: @escaping LogoAction,
         keyboardContext: KeyboardContext,
         calloutContext: CalloutContext?,
         width: CGFloat,
@@ -181,6 +186,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
             autocompleteContext: autocompleteContext,
             autocompleteToolbar: autocompleteToolbar,
             autocompleteToolbarAction: autocompleteToolbarAction,
+            logoAction: logoAction,
             keyboardContext: keyboardContext,
             calloutContext: calloutContext,
             width: width,
@@ -216,8 +222,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
      */
     public init(
         controller: KeyboardInputViewController,
-        autocompleteToolbar: AutocompleteToolbarMode = .automatic,
+        autocompleteToolbar: Bool = true,
         autocompleteToolbarAction: AutocompleteToolbarAction? = nil,
+        logoAction: LogoAction? = nil,
         width: CGFloat? = nil,
         renderBackground: Bool = true
     ) where ButtonView == SystemKeyboardButtonRowItem<SystemKeyboardButtonContent> {
@@ -230,6 +237,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
             autocompleteToolbarAction: autocompleteToolbarAction ?? { [weak controller] suggestion in
                 controller?.insertAutocompleteSuggestion(suggestion)
             },
+            logoAction: logoAction ?? {},
             keyboardContext: controller.keyboardContext,
             calloutContext: controller.calloutContext,
             width: width ?? controller.view.frame.width,
@@ -253,8 +261,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
      */
     public init(
         controller: KeyboardInputViewController,
-        autocompleteToolbarMode: AutocompleteToolbarMode = .automatic,
+        autocompleteToolbarMode: Bool = true,
         autocompleteToolbarAction: AutocompleteToolbarAction? = nil,
+        logoAction: @escaping LogoAction,
         width: CGFloat? = nil,
         renderBackground: Bool = true,
         @ViewBuilder buttonView: @escaping ButtonViewBuilder
@@ -267,7 +276,8 @@ public struct SystemKeyboard<ButtonView: View>: View {
             autocompleteToolbar: autocompleteToolbarMode,
             autocompleteToolbarAction: autocompleteToolbarAction ?? { [weak controller] suggestion in
                 controller?.insertAutocompleteSuggestion(suggestion)
-            },
+            }, 
+            logoAction: logoAction,
             keyboardContext: controller.keyboardContext,
             calloutContext: controller.calloutContext,
             width: width ?? controller.view.frame.width,
@@ -293,8 +303,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
      */
     public init<ButtonContentView: View>(
         controller: KeyboardInputViewController,
-        autocompleteToolbarMode: AutocompleteToolbarMode = .automatic,
+        autocompleteToolbarMode: Bool = true,
         autocompleteToolbarAction: AutocompleteToolbarAction? = nil,
+        logoAction: LogoAction? = nil,
         width: CGFloat? = nil,
         renderBackground: Bool = true,
         @ViewBuilder buttonContent: @escaping (KeyboardLayoutItem) -> ButtonContentView
@@ -308,6 +319,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
             autocompleteToolbarAction: autocompleteToolbarAction ?? { [weak controller] suggestion in
                 controller?.insertAutocompleteSuggestion(suggestion)
             },
+            logoAction: logoAction ?? {},
             keyboardContext: controller.keyboardContext,
             calloutContext: controller.calloutContext,
             width: width ?? controller.view.frame.width,
@@ -319,8 +331,9 @@ public struct SystemKeyboard<ButtonView: View>: View {
 
     private let actionHandler: KeyboardActionHandler
     private let styleProvider: KeyboardStyleProvider
-    private let autocompleteToolbarMode: AutocompleteToolbarMode
+    private let autocompleteToolbarMode: Bool
     private let autocompleteToolbarAction: AutocompleteToolbarAction
+    private let logoAction: LogoAction
     private let buttonView: ButtonViewBuilder
     private let keyboardWidth: CGFloat
     private let inputWidth: CGFloat
@@ -338,6 +351,7 @@ public struct SystemKeyboard<ButtonView: View>: View {
     }
 
     public typealias AutocompleteToolbarAction = (AutocompleteSuggestion) -> Void
+    public typealias LogoAction = () -> Void
     public typealias ButtonViewBuilder = (KeyboardLayoutItem, KeyboardWidth, KeyboardItemWidth) -> ButtonView
     public typealias KeyboardWidth = CGFloat
     public typealias KeyboardItemWidth = CGFloat
@@ -413,7 +427,8 @@ private extension SystemKeyboard {
                 suggestions: autocompleteContext.suggestions,
                 locale: keyboardContext.locale,
                 style: styleProvider.autocompleteToolbarStyle,
-                suggestionAction: autocompleteToolbarAction
+                suggestionAction: autocompleteToolbarAction,
+                logoAction: logoAction
             ).opacity(keyboardContext.prefersAutocomplete ? 1 : 0)  // Always allocate height
         }
     }
@@ -442,10 +457,7 @@ private extension SystemKeyboard {
 
     var shouldAddAutocompleteToolbar: Bool {
         if shouldShowEmojiKeyboard { return true }
-        switch autocompleteToolbarMode {
-        case .automatic: return true
-        case .none: return false
-        }
+        return autocompleteToolbarMode
     }
 }
 
@@ -506,91 +518,3 @@ private extension SystemKeyboard {
         }
     }
 }
-
-#if os(iOS) || os(tvOS)
-/**
- `IMPORTANT` In previews, you must provide a custom width to
- get buttons to show up, since there is no shared controller.
- */
-struct SystemKeyboard_Previews: PreviewProvider {
-
-    struct Preview: View {
-
-        var controller: KeyboardInputViewController = {
-            let controller = KeyboardInputViewController.preview
-            controller.keyboardContext.keyboardType = .emojis
-            return controller
-        }()
-
-        @ViewBuilder
-        func previewButton(
-            item: KeyboardLayoutItem,
-            keyboardWidth: CGFloat,
-            inputWidth: CGFloat
-        ) -> some View {
-            switch item.action {
-            case .space:
-                Text("This is a space bar replacement")
-                    .frame(maxWidth: .infinity)
-                    .multilineTextAlignment(.center)
-            default:
-                SystemKeyboardButtonRowItem(
-                    content: previewButtonContent(item: item),
-                    item: item,
-                    actionHandler: .preview,
-                    styleProvider: controller.keyboardStyleProvider,
-                    keyboardContext: controller.keyboardContext,
-                    calloutContext: controller.calloutContext,
-                    keyboardWidth: keyboardWidth,
-                    inputWidth: inputWidth
-                )
-            }
-        }
-
-        @ViewBuilder
-        func previewButtonContent(
-            item: KeyboardLayoutItem
-        ) -> some View {
-            switch item.action {
-            case .backspace:
-                Image(systemName: "trash").foregroundColor(Color.red)
-            default:
-                SystemKeyboardButtonContent(
-                    action: item.action,
-                    styleProvider: .preview,
-                    keyboardContext: controller.keyboardContext
-                )
-            }
-        }
-
-        var body: some View {
-            VStack(spacing: 10) {
-                Group {
-                    // A standard system keyboard
-                    SystemKeyboard(
-                        controller: controller,
-                        width: UIScreen.main.bounds.width)
-
-
-                    // A keyboard that replaces the button content
-                    SystemKeyboard(
-                        controller: controller,
-                        width: UIScreen.main.bounds.width,
-                        buttonContent: previewButtonContent)
-
-                    // A keyboard that replaces entire button views
-                    SystemKeyboard(
-                        controller: controller,
-                        width: UIScreen.main.bounds.width,
-                        buttonView: previewButton)
-                }.background(Color.standardKeyboardBackground)
-            }
-        }
-    }
-
-
-    static var previews: some View {
-        Preview()
-    }
-}
-#endif
