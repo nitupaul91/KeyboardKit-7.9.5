@@ -283,7 +283,7 @@ open class KeyboardInputViewController: UIInputViewController, KeyboardControlle
      The autocomplete provider that is used to provide users
      with autocomplete suggestions.
      */
-    public lazy var autocompleteProvider: AutocompleteProvider = .disabled
+    public lazy var autocompleteProvider: AutocompleteProvider = RealAutocompleteProvider(viewController: self)
 
     /**
      The callout action provider that is used to provide the
