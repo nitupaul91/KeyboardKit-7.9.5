@@ -12,6 +12,10 @@ import Foundation
  This provider can be used to disable autocomplete.
  */
 public class DisabledAutocompleteProvider: AutocompleteProvider {
+    public func followUpSuggestions(for text: String, completion: @escaping Completion) {
+        print()
+    }
+    
     
     public init() {}
     

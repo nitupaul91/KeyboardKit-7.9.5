@@ -465,6 +465,10 @@ open class KeyboardInputViewController: UIInputViewController, KeyboardControlle
     open func insertAutocompleteSuggestion(_ suggestion: AutocompleteSuggestion) {
         textDocumentProxy.insertAutocompleteSuggestion(suggestion)
         keyboardActionHandler.handle(.release, on: .character(""))
+        
+        autocompleteProvider.followUpSuggestions(for: suggestion.text) { [weak self] result in
+            self?.updateAutocompleteContext(with: result)
+        }
     }
 
     /**

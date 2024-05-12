@@ -35,6 +35,10 @@ public extension AutocompleteProvider where Self == PreviewAutocompleteProvider 
 
 /// This provider can be used in SwiftUI previews.
 public class PreviewAutocompleteProvider: AutocompleteProvider {
+    public func followUpSuggestions(for text: String, completion: @escaping Completion) {
+        print()
+    }
+    
 
     public init(
         suggestions: [AutocompleteSuggestion]

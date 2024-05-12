@@ -1,0 +1,112 @@
+//
+//  File.swift
+//  
+//
+//  Created by Paul Nitu on 12.05.2024.
+//
+
+import Foundation
+import UIKit
+
+class RealAutocompleteProvider: AutocompleteProvider {
+
+    // Initialize UITextChecker
+    private let textChecker = UITextChecker()
+    var locale: Locale = .current
+    weak var viewController: KeyboardInputViewController?
+    private var lexicon: UILexicon?
+
+    var canIgnoreWords: Bool { true }
+    var canLearnWords: Bool { true }
+    var ignoredWords: [String] = []
+    var learnedWords: [String] = []
+    
+    init(viewController: KeyboardInputViewController) {
+        self.viewController = viewController
+        requestLexicon()
+    }
+
+    private func requestLexicon() {
+        viewController?.requestSupplementaryLexicon(completion: { lexicon in
+            self.lexicon = lexicon
+        })
+    }
+
+    // Check if a word has been ignored
+    func hasIgnoredWord(_ word: String) -> Bool {
+        return ignoredWords.contains(word)
+    }
+
+    // Check if a word has been learned
+    func hasLearnedWord(_ word: String) -> Bool {
+        return UITextChecker.hasLearnedWord(word)
+    }
+
+    // Ignore a specific word
+    func ignoreWord(_ word: String) {
+        ignoredWords.append(word)
+    }
+
+    // Learn a new word
+    func learnWord(_ word: String) {
+        UITextChecker.learnWord(word)
+    }
+
+    // Remove an ignored word
+    func removeIgnoredWord(_ word: String) {
+        if let index = ignoredWords.firstIndex(of: word) {
+            ignoredWords.remove(at: index)
+        }
+    }
+
+    // Unlearn a specific word
+    func unlearnWord(_ word: String) {
+        UITextChecker.unlearnWord(word)
+    }
+
+    // Provide autocomplete suggestions
+    func autocompleteSuggestions(
+        for text: String,
+        completion: AutocompleteProvider.Completion
+    ) {
+        guard !text.isEmpty else {
+            completion(.success([]))
+            return
+        }
+
+        let language = locale.identifier
+        let range = NSRange(location: 0, length: text.utf16.count)
+        
+        // Get completions from UITextChecker
+        if let completions = textChecker.completions(forPartialWordRange: range, in: text, language: language) {
+            // Limit to top 3 suggestions
+            let topCompletions = completions.prefix(3)
+            let suggestions = topCompletions.map { AutocompleteSuggestion(text: $0) }
+            completion(.success(suggestions))
+        } else {
+            completion(.success([]))
+        }
+    }
+    
+    func followUpSuggestions(for word: String, completion: AutocompleteProvider.Completion) {
+        guard let lexicon = lexicon else {
+            completion(.success([]))
+            return
+        }
+
+        var nextWordCandidates = Set<String>()
+
+        for entry in lexicon.entries {
+            if entry.userInput.lowercased() == word.lowercased() {
+                let words = entry.documentText.split(separator: " ")
+                if words.count > 1 {
+                    nextWordCandidates.insert(String(words[1]))
+                }
+            }
+        }
+
+        // Limit to top 3 suggestions
+        let suggestions = nextWordCandidates.prefix(3).map { AutocompleteSuggestion(text: $0) }
+        completion(.success(suggestions))
+    }
+}

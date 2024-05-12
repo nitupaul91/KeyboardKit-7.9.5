@@ -10,6 +10,9 @@ import Foundation
 import KeyboardKit
 
 class MockAutocompleteProvider: AutocompleteProvider {
+    func followUpSuggestions(for text: String, completion: @escaping Completion) {
+        print()
+    }
     
     var locale: Locale = .current
     
