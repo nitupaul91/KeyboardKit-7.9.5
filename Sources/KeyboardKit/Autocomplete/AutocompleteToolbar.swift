@@ -100,6 +100,7 @@ public struct AutocompleteToolbar<ItemView: View, SeparatorView: View>: View {
                     .frame(width: 30, height: 30)
                     .padding(.leading, 8)
             })
+            Spacer()
             ForEach(items) { item in
                 itemButton(for: item.suggestion)
                 if useSeparator(for: item) {
