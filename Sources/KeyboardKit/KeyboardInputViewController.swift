@@ -479,7 +479,7 @@ open class KeyboardInputViewController: UIInputViewController, KeyboardControlle
      ``AutocompleteContext/isEnabled`` is `true`.
      */
     open var isAutocompleteEnabled: Bool {
-        autocompleteContext.isEnabled && !textDocumentProxy.isReadingFullDocumentContext
+        autocompleteContext.isEnabled
     }
 
     /**
