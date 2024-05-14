@@ -22,13 +22,14 @@ public class RealAutocompleteProvider: AutocompleteProvider {
     
     init(viewController: KeyboardInputViewController) {
         self.viewController = viewController
-        requestLexicon()
+        Task {
+         await requestLexicon()
+        }
     }
     
-    private func requestLexicon() {
-        viewController?.requestSupplementaryLexicon(completion: { [weak self] lexicon in
-            self?.lexicon = lexicon
-        })
+    private func requestLexicon() async {
+       let lexicon = await viewController?.requestSupplementaryLexicon()
+        self.lexicon = lexicon
     }
     
     // Check if a word has been ignored
