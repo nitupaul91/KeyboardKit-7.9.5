@@ -13,7 +13,6 @@ public class RealAutocompleteProvider: AutocompleteProvider {
     private let textChecker = UITextChecker()
     public var locale: Locale = .current
     weak var viewController: KeyboardInputViewController?
-    private var lexicon: UILexicon?
     
     public var canIgnoreWords: Bool { true }
     public var canLearnWords: Bool { true }
@@ -22,14 +21,6 @@ public class RealAutocompleteProvider: AutocompleteProvider {
     
     init(viewController: KeyboardInputViewController) {
         self.viewController = viewController
-        Task {
-         await requestLexicon()
-        }
-    }
-    
-    private func requestLexicon() async {
-       let lexicon = await viewController?.requestSupplementaryLexicon()
-        self.lexicon = lexicon
     }
     
     // Check if a word has been ignored
