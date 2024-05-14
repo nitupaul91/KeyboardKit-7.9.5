@@ -422,7 +422,7 @@ private extension SystemKeyboard {
 
     @ViewBuilder
     var autocompleteToolbar: some View {
-//        if shouldAddAutocompleteToolbar {
+        if shouldAddAutocompleteToolbar {
             AutocompleteToolbar(
                 suggestions: autocompleteContext.suggestions,
                 locale: keyboardContext.locale,
@@ -431,7 +431,7 @@ private extension SystemKeyboard {
                 logoAction: logoAction
             )
 //            .opacity(keyboardContext.prefersAutocomplete ? 1 : 0)  // Always allocate height
-//        }
+        }
     }
     
     var emojiKeyboard: some View {
