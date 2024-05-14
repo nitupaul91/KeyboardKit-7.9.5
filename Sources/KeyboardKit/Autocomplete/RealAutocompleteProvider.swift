@@ -10,7 +10,6 @@ import UIKit
 
 public class RealAutocompleteProvider: AutocompleteProvider {
     
-    // Initialize UITextChecker
     private let textChecker = UITextChecker()
     public var locale: Locale = .current
     weak var viewController: KeyboardInputViewController?
@@ -27,8 +26,8 @@ public class RealAutocompleteProvider: AutocompleteProvider {
     }
     
     private func requestLexicon() {
-        viewController?.requestSupplementaryLexicon(completion: { lexicon in
-            self.lexicon = lexicon
+        viewController?.requestSupplementaryLexicon(completion: { [weak self] lexicon in
+            self?.lexicon = lexicon
         })
     }
     
@@ -74,7 +73,12 @@ public class RealAutocompleteProvider: AutocompleteProvider {
             return
         }
         
-        let language = locale.identifier
+        let language: String
+        if #available(iOS 16, *) {
+            language = String(describing: viewController?.keyboardContext.locale.language.languageCode ?? "en")
+        } else {
+            language = "en"
+        }
         let range = NSRange(location: 0, length: text.utf16.count)
         
         // Get completions from UITextChecker
