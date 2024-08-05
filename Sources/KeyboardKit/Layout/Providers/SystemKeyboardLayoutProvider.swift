@@ -153,8 +153,6 @@ open class SystemKeyboardLayoutProvider: KeyboardLayoutProvider {
         let config = KeyboardLayoutConfiguration.standard(for: context)
         switch action {
         case .characterMargin, .none: return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        case .shift(currentCasing: .lowercased): return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-        case .backspace: return EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         default: return config.buttonInsets
         }
     }

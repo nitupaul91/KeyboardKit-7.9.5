@@ -142,6 +142,7 @@ open class iPhoneKeyboardLayoutProvider: SystemKeyboardLayoutProvider {
         for context: KeyboardContext
     ) -> KeyboardLayoutItem.Width {
         if context.isAlphabetic(.ukrainian) { return .input }
+        if context.isAlphabetic(.russian) { return .input }
         return .percentage(0.13)
     }
 
