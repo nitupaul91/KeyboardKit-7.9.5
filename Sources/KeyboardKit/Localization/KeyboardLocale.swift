@@ -81,7 +81,7 @@ public enum KeyboardLocale: String,
     case swedish = "sv"
     case swahili = "sw"
     case turkish = "tr"
-    case ukrainian = "ua"
+    case ukrainian = "uk"
     case uzbek = "uz"
     case korean = "ko"
 }
