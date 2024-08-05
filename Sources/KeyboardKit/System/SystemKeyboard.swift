@@ -518,25 +518,6 @@ private extension SystemKeyboard {
             }
         }
         .id(keyboardContext.locale.identifier)
-        .padding(.horizontal, horizontalPadding(for: itemRow))
-    }
-    
-    /// Calculate horizontal padding for specific languages
-    func horizontalPadding(for itemRow: KeyboardLayoutItem.Row) -> CGFloat {
-        let localeIdentifier = keyboardContext.locale.identifier
-        let specificLanguages = ["ua", "ru"]
-        
-        // Adjust this value as needed to bring the keys inward
-        let paddingValue: CGFloat = 16
-
-        if specificLanguages.contains(localeIdentifier) && isMiddleRow(itemRow) {
-            return paddingValue
-        }
-        return 0
-    }
-
-    /// Determine if the given row is the middle row
-    func isMiddleRow(_ itemRow: KeyboardLayoutItem.Row) -> Bool {
-        return itemRow == layout.itemRows[2]
+        .padding(.horizontal, 32)
     }
 }
