@@ -1,0 +1,28 @@
+/*
+ Localizable.strings
+ KeyboardKit
+ 
+ Created by Daniel Saidi on 2021-02-15.
+ Copyright © 2021 Daniel Saidi. All rights reserved.
+ */
+
+"locale" = "ko";
+
+"continue" = "계속";
+"done" = "완료";
+"emergencyCall" = "긴급 전화";
+"go" = "이동";
+"join" = "가입";
+"next" = "다음";
+"ok" = "확인";
+"return" = "돌아가기";
+"route" = "경로";
+"search" = "검색";
+"send" = "보내기";
+"space" = "공백";
+
+"keyboardTypeAlphabetic" = "ABC";
+"keyboardTypeNumeric" = "123";
+"keyboardTypeSymbolic" = "#+=";
+
+"searchEmoji" = "이모지 검색";

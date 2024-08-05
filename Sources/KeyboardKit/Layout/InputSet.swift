@@ -128,6 +128,38 @@ public extension InputSet {
         ])
     }
     
+    static var korean: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "ㅂㅈㄷㄱㅅㅛㅕㅑㅐㅔ"),
+            .init(chars: "ㅁㄴㅇㄹㅎㅗㅓㅏㅣ"),
+            .init(phone: "ㅋㅌㅊㅍㅠㅜㅡ", pad: "ㅋㅌㅊㅍㅠㅜㅡ,.")
+        ])
+    }
+
+    static var koreanNumeric: NumericInputSet {
+        .standardNumeric(currency: "₩")
+    }
+
+    static var koreanSymbolic: SymbolicInputSet {
+        .standardSymbolic(currencies: "₩$€".chars)
+    }
+    
+    static var turkish: AlphabeticInputSet {
+        .init(rows: [
+            .init(chars: "qwertyuıopğü"),
+            .init(chars: "asdfghjklşi"),
+            .init(phone: "zxcvbnmöç", pad: "zxcvbnmöç,.")
+        ])
+    }
+
+    static var turkishNumeric: NumericInputSet {
+        .standardNumeric(currency: "₺")
+    }
+
+    static var turkishSymbolic: SymbolicInputSet {
+        .standardSymbolic(currencies: "₺$€".chars)
+    }
+    
     static var qwerty: AlphabeticInputSet {
         .init(rows: [
             .init(chars: "qwertyuiop"),

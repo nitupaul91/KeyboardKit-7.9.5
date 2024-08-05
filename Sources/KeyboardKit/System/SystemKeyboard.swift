@@ -515,7 +515,30 @@ private extension SystemKeyboard {
         HStack(spacing: 0) {
             ForEach(Array(itemRow.enumerated()), id: \.offset) {
                 buttonView($0.element, keyboardWidth, inputWidth)
-            }.id(keyboardContext.locale.identifier)
+            }
         }
+        .id(keyboardContext.locale.identifier)
+        .padding(.horizontal, horizontalPadding(for: itemRow))
+    }
+    
+    /// Calculate horizontal padding for specific languages
+    func horizontalPadding(for itemRow: KeyboardLayoutItem.Row) -> CGFloat {
+        let localeIdentifier = keyboardContext.locale.identifier
+        let specificLanguages = ["uk", "ru"]
+        
+        // Adjust this value as needed to bring the keys inward
+        let paddingValue: CGFloat = 16
+
+        if specificLanguages.contains(localeIdentifier) && isMiddleRow(itemRow) {
+            return paddingValue
+        }
+        return 0
+    }
+
+    /// Determine if the given row is the middle row
+    func isMiddleRow(_ itemRow: KeyboardLayoutItem.Row) -> Bool {
+        // This logic assumes the middle row is the second row
+        // Adjust if your keyboard layout differs
+        return layout.itemRows.count > 1 && itemRow == layout.itemRows[1]
     }
 }

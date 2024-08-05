@@ -81,8 +81,9 @@ public enum KeyboardLocale: String,
     case swedish = "sv"
     case swahili = "sw"
     case turkish = "tr"
-    case ukrainian = "uk"
+    case ukrainian = "ua"
     case uzbek = "uz"
+    case korean = "ko"
 }
 
 public extension KeyboardLocale {
@@ -151,6 +152,7 @@ public extension KeyboardLocale {
         case .kurdish_sorani: return "🇹🇯"
         case .kurdish_sorani_arabic: return "🇹🇯"
         case .kurdish_sorani_pc: return "🇹🇯"
+        case .korean: return "🇰🇷"
         case .latvian: return "🇱🇻"
         case .lithuanian: return "🇱🇹"
         case .macedonian: return "🇲🇰"
