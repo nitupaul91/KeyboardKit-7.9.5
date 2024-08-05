@@ -195,6 +195,10 @@ open class SystemKeyboardLayoutProvider: KeyboardLayoutProvider {
     ) -> KeyboardLayoutItem.Width {
         switch action {
         case .character: return .input
+        case .backspace:
+            if context.hasKeyboardLocale(.ukrainian) || context.hasKeyboardLocale(.russian) { return .input } else { return .available}
+        case .shift(currentCasing: .auto):
+            if context.hasKeyboardLocale(.ukrainian) || context.hasKeyboardLocale(.russian) { return .input } else { return .available}
         default: return .available
         }
     }
