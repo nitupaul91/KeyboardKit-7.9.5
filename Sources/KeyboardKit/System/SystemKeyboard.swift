@@ -518,6 +518,5 @@ private extension SystemKeyboard {
             }
         }
         .id(keyboardContext.locale.identifier)
-        .padding(.horizontal, 32)
     }
 }
